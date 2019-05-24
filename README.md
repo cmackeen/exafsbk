@@ -10,6 +10,7 @@ The -h will show you brief help, and in general the only needed argument is the 
 The -es flag must be followed by the edge energy of your simulated interefering edge (in eV). That is, the lower energy edge. 
 
 
+Symbolic linking works for universal use on a unix system.
 
 #Pre_edge bleed: EXAFS bg from conflicting absoprtion edges
 
