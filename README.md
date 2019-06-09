@@ -1,5 +1,5 @@
 
-###Program use
+### Program use
 This is written for python2.7 and uses the following packages: scipy, pandas, matplotlib, argparse 
 
 This is set up to run the python script as an executabe, and use TkAGG matplotlib (check in header) for graphics delivered via bash execution.
@@ -11,7 +11,7 @@ The -es flag must be followed by the edge energy of your simulated interefering 
 
 Symbolic linking works for universal use on a unix system.
 
-###Pre_edge bleed: EXAFS background from conflicting absorption edges
+### Pre_edge bleed: EXAFS background from conflicting absorption edges
 
 If you do not know why/what this is, it is used to remove a special type of background where EXAFS oscillations extend into the atomic edge you are trying to analyze. These small deviations may not be filtered by generic polynomial spline fitting, and thus we seek to manually simulate the EXAFS from the interfering low-energy edge out to hi k (~20 inv. ang.). Clear indicator you need this EXAFS background removal is if the pre edge itself has oscillations of ~5%. 
 
