@@ -134,7 +134,7 @@ def run(args):
         
         print(str(popt[0]) + '     amplitude factor to fit stencil to pre-edge')
 
-        print(str(popt[1]) + '    stencil energy sift in eV')
+        print(str(popt[1]) + '    stencil energy shift in eV (negative is right shift, positive is left)')
 
         xrang=np.linspace(E_stenc-200, E1+200, 2000)
         slide_pout=lambda x, *p: popt[0]*smooth_wv(x+popt[1])
