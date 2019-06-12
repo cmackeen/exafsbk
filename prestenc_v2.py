@@ -95,7 +95,6 @@ def run(args):
         
         print('==========')
 
-        plt.plot(df4['e'],df4['amp'], label=' data')
         
 
         sf2 = sf[sf.columns[0]].str.split()
@@ -141,7 +140,7 @@ def run(args):
         slide_pout=lambda x, *p: popt[0]*smooth_wv(x+popt[1])
     
 
-        plt.plot(xrang, slide_pout(xrang),ms=3., label='stenc_fit') 
+        plt.plot(xrang, slide_pout(xrang),ms=3., label='stenc_fit',linewidth=3.0) 
        
 
 
@@ -158,10 +157,10 @@ def run(args):
         findf4['amp']=list(zip(*findf2)[1])
         findf4=findf4.astype(float)
         
-        plt.plot(findf4['e'],findf4['amp'],label='in')
+        plt.plot(findf4['e'],findf4['amp'],label='data in', linewidth=3.0)
         
         findf4['dif']=findf4['amp']-slide_pout(findf4['e'])
-        plt.plot(findf4['e'],findf4['dif'],label='out')
+        plt.plot(findf4['e'],findf4['dif'],label='data out', linewidth=3.0)
         final_out =pd.DataFrame(columns=['e','amp'])
         final_out['e']=findf4['e']
         final_out['amp']=findf4['dif']
