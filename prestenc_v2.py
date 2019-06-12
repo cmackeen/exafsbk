@@ -128,19 +128,21 @@ def run(args):
 
     
 
-        p=[.2,0.0]
-        slide_pump=lambda x, *p: p[0]*p[0]*smooth_wv(x+p[1])
+        p=[.2,0.0,.005]
+        slide_pump=lambda x, *p: p[0]*smooth_wv(x+p[1])+p[2]
         popt, pcov = optimize.curve_fit(f=slide_pump, xdata=df4['e'], ydata=df4['amp'], p0=p,maxfev=99000)
         
         print(str(popt[0]) + '     amplitude factor to fit stencil to pre-edge')
 
-        print(str(popt[1]) + '    stencil energy shift in eV (negative is right shift, positive is left)')
+        print(str(popt[1]) + '    stencil energy shift in eV')
+        print(str(popt[2]) + '    constant offset eV')
 
         xrang=np.linspace(E_stenc-200, E1+200, 2000)
         slide_pout=lambda x, *p: popt[0]*smooth_wv(x+popt[1])
+        slide_pout_plot=lambda x, *p: popt[0]*smooth_wv(x+popt[1])+popt[2]
     
 
-        plt.plot(xrang, slide_pout(xrang),ms=3., label='stenc_fit',linewidth=3.0) 
+        plt.plot(xrang, slide_pout_plot(xrang),ms=3., label='stenc_fit',linewidth=3.0) 
        
 
 
