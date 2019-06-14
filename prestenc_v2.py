@@ -30,7 +30,10 @@ import argparse
 def main():
     parser=argparse.ArgumentParser(description="Takes input 2 column (tab sep) list, expicitly titled 'stencdat.inp'. Left column is data files to be corrected, Right column is simulated ks 'stencil' files. Cheers  ")
     parser.add_argument("-es",help="Energy of the stencil's edge [eV] (the lower energy edge tat bleeds into edge of interest)" ,dest="e_stenc", type=float, required=True)
-    parser.add_argument("-e1",help="Edge of interest [eV] (Default=auto from max edge slope" ,dest="e1", type=float, default=37)
+    parser.add_argument("-e1",help="Edge of interest [eV] (Default=auto from max edge slope)" ,dest="e1", type=float, default=37)
+    parser.add_argument("-amp",help="Manually fix scaling amplitude of stencil" ,dest="ampfix", type=float, default=937)
+    parser.add_argument("-eshift",help="Manually fix energy shift of stencil" ,dest="eshfix", type=float, default=937)
+    parser.add_argument("-off",help="Use when pre-edge does not seem to oscillate around 0 (Default is no constant offset)" ,dest="offset_bool",action="store_true",default=False)
     parser.set_defaults(func=run)
     args=parser.parse_args()
     args.func(args)
@@ -53,6 +56,8 @@ def run(args):
     E_stenc = args.e_stenc # these match the "dest": dest="input"
     E1 = args.e1 # from dest="output"
     file_name='stencdat.inp'
+    offset=args.offset_bool
+    
     #E1=22121.5
     #e_stenc=21761.5
 
@@ -127,11 +132,19 @@ def run(args):
         pp=[30,.02]
 
     
-
-        p=[.2,0.0,.005]
-        slide_pump=lambda x, *p: p[0]*smooth_wv(x+p[1])+p[2]
+        p=[.2,0.0,0]
+	if offset==True:
+        	slide_pump=lambda x, *p: p[0]*smooth_wv(x+p[1])+p[2]
+		print('constant offset activated !__--__!')
+	else:
+        	slide_pump=lambda x, *p: p[0]*smooth_wv(x+p[1])
         popt, pcov = optimize.curve_fit(f=slide_pump, xdata=df4['e'], ydata=df4['amp'], p0=p,maxfev=99000)
-        
+        if args.ampfix != 937:
+		popt[0] = args.ampfix
+		print('+++++++ Amplitude manually fixed +++++++')
+	if args.eshfix != 937:
+		popt[1] = args.eshfix	 
+		print('+++++++ Energy shift manually fixed +++++++')
         print(str(popt[0]) + '     amplitude factor to fit stencil to pre-edge')
 
         print(str(popt[1]) + '    stencil energy shift in eV')
